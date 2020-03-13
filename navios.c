@@ -33,12 +33,4 @@ int imprimirMatriz(int** M, int b, int n){
 }
 
 
-int main(){
-    int b, n;
-    scanf("%d %d", &n, &b);
-   
-    int **M = criaMatriz(b,n);
-    povoarMatriz(M,b,n);
-    imprimirMatriz(M,b,n);
-    return 0;
-}
+
