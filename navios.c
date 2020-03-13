@@ -1,36 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int **criaMatriz(int b, int n){
-    int i = 0;
-    int **M = (int**) malloc(b*sizeof(int*));
+int** calculaFO(int b, int n, **int Tki, **int ai, **int tki){
+    int i, j, **fo;
     for(i = 0; i < b; i++){
-        M[i] = (int*) malloc(n*sizeof(int));
-    }
-    return M;
-}
-
-int povoarMatriz(int **M, int b, int n){
-    int valor = 0, i = 0, j = 0;
-    for(i = 0; i < b; i++){
-        for(j = 0; j < n; j++){
-            scanf("%d", &valor);
-            M[i][j] = valor;
+        for(j = 0; i < n; j++){
+            if(tki[i][j] != 0){
+                fo[i][j] = TKi[i][j] - ai[i][j] + tki[i][j];
+            }
         }
     }
-    return 0;
+    return fo;
 }
-
-int imprimirMatriz(int** M, int b, int n){
-    int i = 0, j = 0;
-    for(i = 0; i < b; i++){
-        for(j = 0; j < n; j++){
-            printf("%d \t", M[i][j]);
-        }
-        printf("\n");
-    }
-    return 0;
-}
-
-
 
