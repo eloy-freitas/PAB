@@ -3,9 +3,11 @@
 
 int padronizarMatriz(int **M, int k, int n, int inteiro){
     int i, j;
+    
     for(i = 0; i < k; i++){
         for(j = 0; j < n; j++){
             M[i][j] = inteiro;
+            
         }
     }
     return 0;
@@ -17,7 +19,7 @@ int** criaMatriz(int k, int n){
     for(i = 0; i < k; i++){
         M[i] = (int*) malloc(n*sizeof(int));
     }
-    padronizarMatriz(M, k, n, 0);
+    //padronizarMatriz(M, k, n, 0);
     return M;
 }
 
@@ -42,6 +44,12 @@ int imprimirMatriz(int** M, int k, int n){
     }
     return 0;
 }
+
+
+
+
+
+
 
 
 
