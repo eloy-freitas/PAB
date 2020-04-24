@@ -29,9 +29,9 @@ int main(){
        printf("matriz ai\n");
        imprimirMatriz(ai,1, N);
        imprimirMatriz(bi,1, N);*/
-        sortearTempoEspera(K, N, Tki);
-        calcularTempoEspera(K, N, Tki);
-        imprimirMatriz(Tki, K, N);
+        sortearVizinhos(K, N, 5, 0);
+        //calcularTempoEspera(K, N, Tki);
+        //imprimirMatriz(Tki, K, N);
 
        
     }else{

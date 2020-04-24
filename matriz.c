@@ -45,6 +45,11 @@ int imprimirMatriz(int** M, int k, int n){
     return 0;
 }
 
+int* getLinha(int** M, int linha){
+    return M[linha];
+}
+
+
 
 
 
