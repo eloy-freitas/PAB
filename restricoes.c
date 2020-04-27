@@ -1,18 +1,47 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//Função Objetivo
-int** calculaFO(int b, int n, int **Tki, int **ai, int **tki, int **bXn){
-    int i, j, **fo;
-    for(i = 0; i < b; i++){
-        for(j = 0; i < n; j++){
-            if(tki[i][j] > 0){
-                fo[i][j] = TKi[i][j] - ai[i][j] + tki[i][j];
+/*Tem o objetivo de fazer o calculo da FO*/
+int calcularFO(int K, int N, int **Tki, int **tki, int **ai, int** navios)
+{
+    int i, j, result = 0;
+
+    for (i = 0; i < K; i++)
+    {
+        for (j = 0; j < N; j++)
+        {
+            if (navios[i][j] == 1)
+            {
+                Tki[i][j] = Tki[i][j] - ai[0][j];
             }
         }
     }
-    return fo;
+
+    for (i = 0; i < K; i++)
+    {
+        for (j = 0; j < N; j++)
+        {
+            if (navios[i][j] == 1)
+            {
+                Tki[i][j] = Tki[i][j] + tki[i][j];
+            }
+        }
+    }
+
+    for (i = 0; i < K; i++)
+    {
+        for (j = 0; j < N; j++)
+        {
+            if (navios[i][j] == 1)
+            {
+                result = result + Tki[i][j];
+            }
+        }
+    }
+
+    return result;
 }
+
 
 //Restrições
 
