@@ -1,4 +1,20 @@
 
+/*Tem o objetivo de copiar a matriz navios e salvar na matriz vizinho. 
+Em seguida cada linha muda 1 bit de valor na matriz vizinho */
+int sortearVizinho(int K, int N, int** navios, int** vizinho)
+{
+
+    int i, j;
+
+    copiarMatriz(navios, vizinho, K, N);
+
+    for (i = 0; i < K; i++)
+    {
+        mudarUmBit(vizinho, i, N);
+    }
+
+    return 0;
+}
 
 /*Retorna uma matriz com todos vizinhos de acordo com a matriz navios*/
 int*** criarVizinhos(int** navios, int K, int N, int qtdVizinhos)
@@ -7,7 +23,6 @@ int*** criarVizinhos(int** navios, int K, int N, int qtdVizinhos)
     
     int i;
 
-    printf("vizinhos \n");
     for (i = 0; i < qtdVizinhos; i++)
     {
         vizinhos[i] = criaMatriz(K, N);
@@ -24,6 +39,7 @@ int*** criarVizinhos(int** navios, int K, int N, int qtdVizinhos)
     return vizinhos;
 }
 
+/*Retorna o vizinho com o menor custo*/
 int** procurarMelhorVizinho(int** Tki, int*** vizinhos, int qtdVizinhos, int K, int N, int somaNavios){
     
     int** soma = criaMatriz(1, qtdVizinhos);
@@ -41,7 +57,7 @@ int** procurarMelhorVizinho(int** Tki, int*** vizinhos, int qtdVizinhos, int K, 
        }
     }
     
-    printf("Menor soma entre os vizinhos = %d\n Melhor vizinho = %d\n", somaNavios, p);
+    printf("Menor soma entre os vizinhos = %d\nMelhor vizinho = %d\n", somaNavios, p);
     
     return vizinhos[p];
 }
@@ -60,3 +76,4 @@ int refinarVizinhos(int** Tki, int** navios,int qtdVizinhos, int K, int N, int s
     }
     return 0;*/
 }
+

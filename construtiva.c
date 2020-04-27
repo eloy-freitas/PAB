@@ -135,19 +135,4 @@ int corrigirMatrizNavios(int K, int N, int** navios)
     }
     return 0;
 }
-/*Tem o objetivo de copiar a matriz navios e salvar na matriz vizinho. 
-Em seguida cada linha muda 1 bit de valor na matriz vizinho */
-int sortearVizinho(int K, int N, int** navios, int** vizinho)
-{
 
-    int i, j;
-
-    copiarMatriz(navios, vizinho, K, N);
-
-    for (i = 0; i < K; i++)
-    {
-        mudarUmBit(vizinho, i, N);
-    }
-
-    return 0;
-}
