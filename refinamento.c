@@ -1,10 +1,27 @@
+/*Tem o objetivo de somar o peso total da combinação disposta 
+na matriz navios lendo os valores do peso na matriz Tki*/
+int somarCustosDosNavios(int **Tki, int **navios, int K, int N)
+{
+    int i, j, result = 0;
+    for (i = 0; i < K; i++)
+    {
+        for (j = 0; j < N; j++)
+        {
+            if (navios[i][j] == 1)
+            {
+                result = result + Tki[i][j];
+            }
+        }
+    }
+    return result;
+}
 
 /*Tem o objetivo de copiar a matriz navios e salvar na matriz vizinho. 
 Em seguida cada linha muda 1 bit de valor na matriz vizinho */
 int sortearVizinho(int K, int N, int** navios, int** vizinho)
 {
 
-    int i, j;
+    int i;
 
     copiarMatriz(navios, vizinho, K, N);
 
@@ -14,6 +31,16 @@ int sortearVizinho(int K, int N, int** navios, int** vizinho)
     }
 
     return 0;
+}
+
+int imprimirMatrizVizinhos(int ***vizinhos, int K, int N, int qtdVizinhos)
+{
+    int i;
+    for (i = 0; i < qtdVizinhos; i++)
+    {
+        printf("vizinho[%d] \n", i);
+        imprimirMatriz(vizinhos[i], K, N);
+    }
 }
 
 /*Retorna uma matriz com todos vizinhos de acordo com a matriz navios*/
@@ -43,7 +70,7 @@ int*** criarVizinhos(int** navios, int K, int N, int qtdVizinhos)
 int** procurarMelhorVizinho(int** Tki, int*** vizinhos, int qtdVizinhos, int K, int N, int somaNavios){
     
     int** soma = criaMatriz(1, qtdVizinhos);
-    int i, j, p = 0;
+    int i, p = 0;
 
     for (i = 0; i < qtdVizinhos; i++)
     {
@@ -62,18 +89,25 @@ int** procurarMelhorVizinho(int** Tki, int*** vizinhos, int qtdVizinhos, int K, 
     return vizinhos[p];
 }
 
-int refinarVizinhos(int** Tki, int** navios,int qtdVizinhos, int K, int N, int somaNavios){
-    //int*** melhoresVizinhos = (int***) malloc(qtdVizinhos*sizeof(int**)); 
-    int*** vizinhos = criarVizinhos(navios, K, N, qtdVizinhos);
-    procurarMelhorVizinho(Tki, vizinhos, qtdVizinhos, K, N, somaNavios);
-    /*int** aux = criaMatriz(K, N);
-    int i = 0;
-    for(i = 0; i <  qtdVizinhos; i++){
-        copiarMatriz(procurarMelhorVizinho(Tki, vizinhos, qtdVizinhos, K, N, somaNavios), melhoresVizinhos[i], K, N);
-        copiarMatriz(melhoresVizinhos[i], navios, K, N);
-        vizinhos = criarVizinhos(navios, K, N, qtdVizinhos);
-        imprimirMatriz(melhoresVizinhos[i], K, N);
+int refinarVizinhos(int** Tki, int** vizinho , int qtdVizinhos, int K, int N){
+    /*int cont = 0, soma2 = 0, soma1 = somarCustosDosNavios(Tki, vizinho, K, N);
+    
+    int*** vizinhos = criarVizinhos(vizinho, K, N, qtdVizinhos);
+    int*** melhoresVizinhos;
+    int** melhor = criaMatriz(K, N); 
+    melhor = procurarMelhorVizinho(Tki, vizinhos, qtdVizinhos, K, N, soma1);
+    soma2 = somarCustosDosNavios(Tki, melhor, K, N);
+
+    while(cont < qtdVizinhos){
+        if(soma2 < soma1){
+            melhoresVizinhos[cont] = melhor;
+
+        }
+        cont++;
     }
-    return 0;*/
+   imprimirMatrizVizinhos(melhoresVizinhos, K, N, qtdVizinhos);
+   return 0;*/
 }
+
+
 

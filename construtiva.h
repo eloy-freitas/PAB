@@ -1,9 +1,11 @@
 #include "construtiva.c"
 
-int calcularTempoEspera(int K, int N, int** Tki);
-int calcularFO(int K, int N, int** Tki, int** tki, int** ai, int** navios);
-int corrigirMatrizNavios(int K, int N, int** navios);
+int calcularMatrizHoraAtracacao(int K, int N, int **Tki, int **ai, int **aj, int **k, int **tki);
 int** sortearNaviosCandidatos(int K, int N);
-int sortearTempoEspera(int K, int N, int** Tki);
-int mudarUmBit(int** navios, int linha, int N);
-int somarCustosDosNavios(int** Tki, int** navios, int N, int K);
+int corrigirMatrizNavios(int K, int N, int** navios);
+
+
+
+
+
+

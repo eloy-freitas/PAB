@@ -43,34 +43,40 @@ int main()
         printf("Matriz bi\n");
         imprimirMatriz(bi,1, N);
        
-        printf("Povoando matriz Tki com valores aleatórios...\n");
-        sortearTempoEspera(K, N, Tki);
-
-        printf("Imprimindo Tki \n");
+        printf("Calculando matriz Tki...\n");
+       
+        int** aj = criaMatriz(1, N);
+        copiarMatriz(ai, aj, 1, N);
+       
+        ordernarMatriz(aj, 1, N);
+        printf("Imprimindo aj...\n");
+        imprimirMatriz(aj, 1, N);
+        calcularMatrizHoraAtracacao(K, N, Tki, ai, aj, k, tki);
+        limparMatriz(aj, 1);  
+        printf("Imprimindo Tki...\n");
         imprimirMatriz(Tki, K, N);
-
+        
         printf("Criando uma solução inicial para Tki\n");
         navios = sortearNaviosCandidatos(K, N);
         corrigirMatrizNavios(K, N, navios);
         
-        printf("Somando custo total da solução inicial de Tki...\n");
-        int soma = somarCustosDosNavios(Tki, navios, N, K);
-        int qtdVizinhos = 10;
-        printf("Matriz navios e seu custo = %d\n", soma);
+        printf("Matriz navios\n");
         imprimirMatriz(navios, K, N);
 
-        //int*** vizinhos = (int***) malloc(qtdVizinhos*sizeof(int**));
+       /* printf("Somando custo total da solução inicial de Tki...\n");
+        int soma = somarCustosDosNavios(Tki, navios, N, K);
+        int qtdVizinhos = 10;
+        
+
+        /*int*** vizinhos = (int***) malloc(qtdVizinhos*sizeof(int**));
         printf("Criando vetor de vizinhos(total de vizinhos = %d)...\n", qtdVizinhos);
         printf("Imprimindo vizinhos...\n");
-        int*** vizinhos = criarVizinhos(navios, K, N, qtdVizinhos);
-        for(int i = 0; i < qtdVizinhos; i++){
-            printf("vizinho[%d] \n", i);
-            imprimirMatriz(vizinhos[i], K, N);
-        }
+        vizinhos = criarVizinhos(navios, K, N, qtdVizinhos);
+      
         printf("Procurando melhor vizinho...\n");
-        procurarMelhorVizinho(Tki, vizinhos, qtdVizinhos, K, N, soma);
+        procurarMelhorVizinho(Tki, vizinhos, qtdVizinhos, K, N, soma);*/
         //calcularTempoEspera(K, N, Tki);
-        //imprimirMatriz(Tki, K, N);
+        //imprimirMatriz(Tki, K, N);*/
     }
     else
     {

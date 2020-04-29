@@ -1,98 +1,58 @@
+#define MAX 10000
 
-
-
-/*Tem o objetivo de somar o peso total da combinação disposta 
-na matriz navios lendo os valores do peso na matriz Tki*/
-int somarCustosDosNavios(int** Tki, int** navios, int N, int K)
+int calcularMatrizHoraAtracacao(int K, int N, int **Tki, int **ai, int **aj, int **k, int **tki)
 {
-    int i, j, result = 0;
+    int i, j, navio = 0, soma = 0, valor = 0;
+
     for (i = 0; i < K; i++)
     {
         for (j = 0; j < N; j++)
         {
-            if (navios[i][j] == 1)
+            valor = aj[0][j];
+            navio = getColuna(ai, 0, N, valor);
+            // printf("navio = %d\n", valor);
+
+            if (j == 0)
             {
-                result = result + Tki[i][j];
+                if (ai[0][navio] < k[i][0])
+                {
+                    soma = soma + k[i][0];
+                }
+                if (ai[0][navio] > k[i][0])
+                {
+                    soma = soma + ai[0][navio];
+                }
+                Tki[i][navio] = soma;
+                soma = soma + tki[i][navio];
             }
+            else
+            {
+
+                if (ai[0][navio] > soma)
+                {
+                    Tki[i][navio] = ai[0][navio];
+                    soma = soma + tki[i][navio];
+                }
+                else
+                {
+                    Tki[i][navio] = soma;
+                    soma = soma + tki[i][navio];
+                }
+            }
+            //printf("soma = %d, navio = %d, tki = %d\n", soma, navio, tki[i][navio]);
         }
-    }
-    return result;
-}
-/*Tem o objetivo de mudar 1 bit aleatório na linha da 
-matriz navios de N colunas passados por parâmetros*/
-int mudarUmBit(int** navios, int linha, int N)
-{
-    int i = 0, j = 0, sorteio = 0;
-
-    sorteio = rand() % N;
-    //printf("sorteio= %d\n", sorteio);
-    if (navios[linha][sorteio] == 0)
-    {
-        navios[linha][sorteio] = 1;
-    }
-    else
-    {
-        navios[linha][sorteio] = 0;
-    }
-    return 0;
-}
-
-
-/*Tem o objetivo de mudar 2 bits aleatórios na linha da 
-matriz navios de N colunas passados por parâmetros*/
-int mudarDoisBits(int** navios, int linha, int N)
-{
-    int i = 0, j = 0, sorteio1 = 0, sorteio2 = 0;
-
-    sorteio1 = rand() % N;
-    sorteio2 = rand() % N;
-    while(sorteio1 == sorteio2){
-        sorteio2 = rand() % N;
-    }
-    //printf("sorteio= %d\n", sorteio);
-    if (navios[linha][sorteio1] == 0)
-    {
-        navios[linha][sorteio1] = 1;
-    }
-    else
-    {
-        navios[linha][sorteio1] = 0;
-    }
-
-    if (navios[linha][sorteio2] == 0)
-    {
-        navios[linha][sorteio2] = 1;
-    }
-    else
-    {
-        navios[linha][sorteio2] = 0;
-    }
-    return 0;
-}
-
-/*Tem o objetivo de povoar a matriz Tki com números aleatórios de 1 a 200*/
-int sortearTempoEspera(int K, int N, int** Tki)
-{
-    int i = 0, j = 0, sorteio = 0;
-    
-    for (i = 0; i < K; i++)
-    {
-        for (j = 0; j < N; j++)
-        {
-            sorteio = rand() % 200;
-            Tki[i][j] = sorteio;
-        }
+        soma = 0;
     }
     return 0;
 }
 
 /*Tem o objetivo de sortear os N navios para os K berços*/
-int** sortearNaviosCandidatos(int K, int N)
+int **sortearNaviosCandidatos(int K, int N)
 {
-    int i, j, sorteio, cont = 0;
-    int** navios = criaMatriz(K, N);
+    int i, j, sorteio;
+    int **navios = criaMatriz(K, N);
     padronizarMatriz(navios, K, N, 0);
-    
+
     for (i = 0; i < K; i++)
     {
         for (j = 0; j < (N / K); j++)
@@ -106,7 +66,7 @@ int** sortearNaviosCandidatos(int K, int N)
 }
 
 /*Tem o objetivo de corrigir a matriz navios, caso um navio ocupe dois berços*/
-int corrigirMatrizNavios(int K, int N, int** navios)
+int corrigirMatrizNavios(int K, int N, int **navios)
 {
     int i, j, k, sorteio, cont = 0;
     for (i = 0; i < N; i++)
@@ -136,3 +96,53 @@ int corrigirMatrizNavios(int K, int N, int** navios)
     return 0;
 }
 
+
+
+/*Tem o objetivo de povoar a matriz Tki com números aleatórios de 1 a 200
+int sortearTempoEspera(int K, int N, int **Tki)
+{
+    int i = 0, j = 0, sorteio = 0;
+
+    for (i = 0; i < K; i++)
+    {
+        for (j = 0; j < N; j++)
+        {
+            sorteio = rand() % 200;
+            Tki[i][j] = sorteio;
+        }
+    }
+    return 0;
+}*/
+
+/*Tem o objetivo de mudar 2 bits aleatórios na linha da 
+matriz navios de N colunas passados por parâmetros
+int mudarDoisBits(int **navios, int linha, int N)
+{
+    int i = 0, j = 0, sorteio1 = 0, sorteio2 = 0;
+
+    sorteio1 = rand() % N;
+    sorteio2 = rand() % N;
+    while (sorteio1 == sorteio2)
+    {
+        sorteio2 = rand() % N;
+    }
+    //printf("sorteio= %d\n", sorteio);
+    if (navios[linha][sorteio1] == 0)
+    {
+        navios[linha][sorteio1] = 1;
+    }
+    else
+    {
+        navios[linha][sorteio1] = 0;
+    }
+
+    if (navios[linha][sorteio2] == 0)
+    {
+        navios[linha][sorteio2] = 1;
+    }
+    else
+    {
+        navios[linha][sorteio2] = 0;
+    }
+    return 0;
+}*/
