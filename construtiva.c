@@ -3,13 +3,16 @@
 int calcularMatrizHoraAtracacao(int K, int N, int **Tki, int **ai, int **aj, int **k, int **tki)
 {
     int i, j, navio = 0, soma = 0, valor = 0;
+    int** ak = criaMatriz(1,N);
+    copiarMatriz(ai, ak, 1, N);
 
     for (i = 0; i < K; i++)
     {
         for (j = 0; j < N; j++)
         {
             valor = aj[0][j];
-            navio = getColuna(ai, 0, N, valor);
+            navio = getColuna(ak, 0, N, valor);
+            ak[0][navio] = MAX;
             // printf("navio = %d\n", valor);
 
             if (j == 0)
@@ -39,10 +42,13 @@ int calcularMatrizHoraAtracacao(int K, int N, int **Tki, int **ai, int **aj, int
                     soma = soma + tki[i][navio];
                 }
             }
+            
             //printf("soma = %d, navio = %d, tki = %d\n", soma, navio, tki[i][navio]);
         }
+        copiarMatriz(ai, ak, 1, N);
         soma = 0;
     }
+    limparMatriz(ak, 1);
     return 0;
 }
 
