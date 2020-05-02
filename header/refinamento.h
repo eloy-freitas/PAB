@@ -1,4 +1,4 @@
-#include "refinamento.c"
+#include "../src/refinamento.c"
 
 int*** criarVizinhos(int** navios, int K, int N, int qtdVizinhos);
 int imprimirMatrizVizinhos(int ***vizinhos, int K, int N, int qtdVizinhos);

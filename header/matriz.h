@@ -1,5 +1,5 @@
 
-#include "matriz.c"
+#include "../src/matriz.c"
 
 int padronizarMatriz(int** M, int K, int N, int inteiro);
 

@@ -1,20 +1,4 @@
-/*Tem o objetivo de somar o peso total da combinação disposta 
-na matriz navios lendo os valores do peso na matriz Tki*/
-int somarCustosDosNavios(int **Tki, int **navios, int K, int N)
-{
-    int i, j, result = 0;
-    for (i = 0; i < K; i++)
-    {
-        for (j = 0; j < N; j++)
-        {
-            if (navios[i][j] == 1)
-            {
-                result = result + Tki[i][j];
-            }
-        }
-    }
-    return result;
-}
+
 
 /*Tem o objetivo de copiar a matriz navios e salvar na matriz vizinho. 
 Em seguida cada linha muda 1 bit de valor na matriz vizinho */
@@ -41,6 +25,7 @@ int imprimirMatrizVizinhos(int ***vizinhos, int K, int N, int qtdVizinhos)
         printf("vizinho[%d] \n", i);
         imprimirMatriz(vizinhos[i], K, N);
     }
+    return 0;
 }
 
 /*Retorna uma matriz com todos vizinhos de acordo com a matriz navios*/
@@ -105,8 +90,8 @@ int refinarVizinhos(int** Tki, int** vizinho , int qtdVizinhos, int K, int N){
         }
         cont++;
     }
-   imprimirMatrizVizinhos(melhoresVizinhos, K, N, qtdVizinhos);
-   return 0;*/
+   imprimirMatrizVizinhos(melhoresVizinhos, K, N, qtdVizinhos);*/
+   return 0;
 }
 
 
