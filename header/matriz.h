@@ -20,3 +20,5 @@ int ordernarMatriz(int** M, int K, int N);
 int getColuna(int **M, int K, int N, int valor);
 
 int mudarUmBit(int **navios, int linha, int N);
+
+int copiarLinha(int **source, int **target, int linha, int N);

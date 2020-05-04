@@ -75,6 +75,20 @@ int copiarMatriz(int **source, int **target, int K, int N)
     return 0;
 }
 
+int copiarLinha(int **source, int **target, int linha, int N)
+{
+    int j = 0;
+    
+    for (j = 0; j < N; j++)
+    {
+         
+        target[0][j] = source[linha][j];
+       
+    }
+
+    return 0;
+}
+
 int limparMatriz(int **M, int K)
 {
     int i = 0;
@@ -100,30 +114,33 @@ int ordernarMatriz(int **M, int K, int N)
                     aux = M[i][j];
                     M[i][j] = M[i][j + 1];
                     M[i][j + 1] = aux;
-                    if(j == N - 1){
+                    if (j == N - 1)
+                    {
                         M[i][j] = aux;
                     }
                     //printf("aux = %d\t M[%d][%d] = %d \n", aux, i, j, M[i][j]);
                 }
             }
-            
+
             cont++;
         }
     }
     return 0;
 }
 
-int getColuna(int **M, int K, int N, int valor){
+int getColuna(int **M, int K, int N, int valor)
+{
     int i, aux = 0;
-    
+
     for (i = 0; i < N; i++)
     {
-       if(M[K][i] == valor){
-           aux = i;
-           break;
-       }
+        if (M[K][i] == valor)
+        {
+            aux = i;
+            break;
+        }
     }
-    
+
     return aux;
 }
 

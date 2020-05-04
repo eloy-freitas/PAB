@@ -113,15 +113,12 @@ int totalViolacoesJanelaTempoNavios(int K, int N, int **navios, int **Tki, int *
 
 int violacoesJanelaTempoNavios(int berco, int N, int **navios, int **Tki, int **tki, int **bi)
 {
-    int violacoes = 0, j, soma = 0;
+    int violacoes = 0, j;
 
     for (j = 0; j < N; j++)
     {
-        soma = Tki[berco][j] + tki[berco][j];
-      
-        if (navios[berco][j] == 1 && soma > bi[0][j])
+        if (navios[berco][j] == 1 && Tki[berco][j] + tki[berco][j] > bi[0][j])
         {
-         
             violacoes++;
         }
     }

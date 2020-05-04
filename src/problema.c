@@ -1,46 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/*Tem o objetivo de fazer o calculo da FO
-int calcularFO(int K, int N, int **Tki, int **tki, int **ai, int **navios)
-{
-    int i, j, result = 0;
 
-    for (i = 0; i < K; i++)
-    {
-        for (j = 0; j < N; j++)
-        {
-            if (navios[i][j] == 1)
-            {
-                Tki[i][j] = Tki[i][j] - ai[0][j];
-            }
-        }
-    }
-
-    for (i = 0; i < K; i++)
-    {
-        for (j = 0; j < N; j++)
-        {
-            if (navios[i][j] == 1)
-            {
-                Tki[i][j] = Tki[i][j] + tki[i][j];
-            }
-        }
-    }
-
-    for (i = 0; i < K; i++)
-    {
-        for (j = 0; j < N; j++)
-        {
-            if (navios[i][j] == 1)
-            {
-                result = result + Tki[i][j];
-            }
-        }
-    }
-
-    return result;
-}*/
 
 int calcularFOBerco(int berco, int N, int **Tki, int **tki, int **ai, int **navios)
 {
@@ -59,6 +20,7 @@ int calcularFOBerco(int berco, int N, int **Tki, int **tki, int **ai, int **navi
     return fo;
 }
 
+/*Tem o objetivo de fazer o calculo da FO*/
 int calcularFO(int K, int N, int **Tki, int **tki, int **ai, int **navios)
 {
     int i, j, result = 0,fo = 0;
