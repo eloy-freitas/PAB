@@ -4,9 +4,14 @@
 #include <stdlib.h>
 #include "../header/matriz.h"
 #include "../header/problema.h"
-#include "../header/construtiva.h"
 #include "../header/violacoes.h"
+#include "../header/construtiva.h"
 #include "../header/display.h"
+
+
+
+
+
 //#include "header/refinamento.h"
 
 int main()
@@ -73,7 +78,7 @@ int main()
 
         imprimirDadosSolucao(bu, na, 0, v1, v2, fo);
         imprimirBercos(K, N, k, navios, Tki, tki, bi, ai);
-
+        criarMatrizOrdemNavios(K, N, Tki, navios);
        
 
         /*

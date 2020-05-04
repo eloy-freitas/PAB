@@ -3,7 +3,7 @@
 int calcularMatrizHoraAtracacao(int K, int N, int **Tki, int **ai, int **aj, int **k, int **tki)
 {
     int i, j, navio = 0, soma = 0, valor = 0;
-    int** ak = criaMatriz(1,N);
+    int **ak = criaMatriz(1, N);
     copiarMatriz(ai, ak, 1, N);
 
     for (i = 0; i < K; i++)
@@ -42,7 +42,7 @@ int calcularMatrizHoraAtracacao(int K, int N, int **Tki, int **ai, int **aj, int
                     soma = soma + tki[i][navio];
                 }
             }
-            
+
             //printf("soma = %d, navio = %d, tki = %d\n", soma, navio, tki[i][navio]);
         }
         copiarMatriz(ai, ak, 1, N);
@@ -102,7 +102,67 @@ int corrigirMatrizNavios(int K, int N, int **navios)
     return 0;
 }
 
+int **criarMatrizOrdemNaviosAtendidosBerco(int berco, int N, int **Tki, int **navios)
+{
 
+    int **linha = criaMatriz(1, N);
+    int **ordem = criaMatriz(1, N);
+
+    copiarLinha(Tki, linha, berco, N);
+    copiarLinha(Tki, ordem, berco, N);
+
+    int i, j;
+    for (i = 0; i < N; i++)
+    {
+        if (navios[berco][i] == 0)
+        {
+            ordem[0][i] = MAX;
+            linha[0][i] = MAX;
+        }
+    }
+    ordernarMatriz(ordem, 1, N);
+
+    for (i = 0; i < N; i++)
+    {
+        for (j = 0; j < N; j++)
+        {
+            if (ordem[0][i] != MAX && (ordem[0][i] == linha[0][j]))
+            {
+                ordem[0][i] = j;
+                linha[0][j] = MAX;
+            }
+        }
+    }
+    //imprimirMatriz(ordem, 1, N);
+    return ordem;
+}
+
+int **criarMatrizOrdemNavios(int K, int N, int **Tki, int **navios)
+{
+    int **ordemNavios = criaMatriz(1, N);
+    padronizarMatriz(ordemNavios, 1, N, MAX);
+    int **ordem = criaMatriz(1, N);
+
+    int i, j, l = 0, na, last = 0;
+    for (i = 0; i < K; i++)
+    {
+        ordem = criarMatrizOrdemNaviosAtendidosBerco(i, N, Tki, navios);
+        na = naviosAtendidosPorBerco(i, N, navios);
+        while (ordemNavios[0][last] != MAX)
+        {
+            last++;
+        }
+        for (j = last; j < last + na; j++)
+        {
+           ordemNavios[0][j] = ordem[0][l];
+           l++;
+        }
+        l = 0;
+    }
+    
+   // imprimirMatriz(ordemNavios, 1, N);
+    return ordemNavios;
+}
 
 /*Tem o objetivo de povoar a matriz Tki com números aleatórios de 1 a 200
 int sortearTempoEspera(int K, int N, int **Tki)
