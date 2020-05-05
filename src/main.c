@@ -76,9 +76,12 @@ int main()
         int na = naviosAtendidos(K, N, navios);
         int v2 = totalViolacoesJanelaTempoNavios(K, N, navios, Tki, tki, bi);
 
+        int** ordemNavios = criaMatriz(1, N);
+        ordemNavios = criarMatrizOrdemNavios(K, N, Tki, navios);
         imprimirDadosSolucao(bu, na, 0, v1, v2, fo);
-        imprimirBercos(K, N, k, navios, Tki, tki, bi, ai);
+        imprimirBercos(K, N, k, navios, Tki, tki, bi, ai, ordemNavios);
         criarMatrizOrdemNavios(K, N, Tki, navios);
+
        
 
         /*

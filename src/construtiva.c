@@ -90,12 +90,13 @@ int corrigirMatrizNavios(int K, int N, int **navios)
         {
             for (k = 0; k < K; k++)
             {
-                if (k == 1)
+                if (navios[k][i] == 1)
                 {
                     navios[k][i] = 0;
-                    break;
                 }
             }
+            sorteio = rand() % K;
+            navios[sorteio][i] = 1;
         }
         cont = 0;
     }
