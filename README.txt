@@ -9,7 +9,7 @@
    3- refinamento.c e refinamento.h -> oferece heuristicas que servem para refinar a solução inicial (não finalinzado);
    4- o arquivo restricoes.c não está sendo utilizado;
 -> Como executar
-gcc main.c -o main && ./main < i0X.txt 
+gcc src/main.c -o main && ./main < instancias/i0X.txt 
 (X = número de algum arquivo de instância)
 
 -> Obs
