@@ -1,5 +1,27 @@
 
 
+int** sorteadorDeNumeros(int valor, int range){
+    int** bits = criaMatriz(1, valor);
+    int i, sorteio;
+    for(i = 0; i < valor; i++){
+        result = rand() % range;
+        bits[0][i] = sorteio;
+    }
+    return result;
+}
+
+int bitsChanger(int K, int N, int qtdBits){
+    int i, j, linha;
+    int** sorteioNavios = criaMatriz(1, qtdBits);
+    sorteioNavios = sorteadorDeNumeros(qtdBits, N);
+   
+    for(i = 0; i < qtdBits; i++){
+        linha = rand() % K;
+        j = sorteioNavios[0][i];
+        
+
+    }
+}
 /*Tem o objetivo de copiar a matriz navios e salvar na matriz vizinho. 
 Em seguida cada linha muda 1 bit de valor na matriz vizinho */
 int sortearVizinho(int K, int N, int** navios, int** vizinho)
@@ -37,11 +59,13 @@ int*** criarVizinhos(int** navios, int K, int N, int qtdVizinhos)
 
     for (i = 0; i < qtdVizinhos; i++)
     {
-        vizinhos[i] = criaMatriz(K, N);
+        int** vizinho = criaMatriz(K, N);
+        copiarMatriz(navios, vizinhos, K, N);
+        mudarUmBit();
     }
     for (i = 0; i < qtdVizinhos; i++)
     {
-        copiarMatriz(navios, vizinhos[i], K, N);
+        
     }
     for (i = 0; i < qtdVizinhos; i++)
     {

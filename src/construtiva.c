@@ -1,57 +1,5 @@
 #define MAX 10000
 
-int calcularMatrizHoraAtracacao(int K, int N, int **Tki, int **ai, int **aj, int **k, int **tki)
-{
-    int i, j, navio = 0, soma = 0, valor = 0;
-    int **ak = criaMatriz(1, N);
-    copiarMatriz(ai, ak, 1, N);
-
-    for (i = 0; i < K; i++)
-    {
-        for (j = 0; j < N; j++)
-        {
-            valor = aj[0][j];
-            navio = getColuna(ak, 0, N, valor);
-            ak[0][navio] = MAX;
-            // printf("navio = %d\n", valor);
-
-            if (j == 0)
-            {
-                if (ai[0][navio] < k[i][0])
-                {
-                    soma = soma + k[i][0];
-                }
-                if (ai[0][navio] > k[i][0])
-                {
-                    soma = soma + ai[0][navio];
-                }
-                Tki[i][navio] = soma;
-                soma = soma + tki[i][navio];
-            }
-            else
-            {
-
-                if (ai[0][navio] > soma)
-                {
-                    Tki[i][navio] = ai[0][navio];
-                    soma = soma + tki[i][navio];
-                }
-                else
-                {
-                    Tki[i][navio] = soma;
-                    soma = soma + tki[i][navio];
-                }
-            }
-
-            //printf("soma = %d, navio = %d, tki = %d\n", soma, navio, tki[i][navio]);
-        }
-        copiarMatriz(ai, ak, 1, N);
-        soma = 0;
-    }
-    limparMatriz(ak, 1);
-    return 0;
-}
-
 /*Tem o objetivo de sortear os N navios para os K berços*/
 int **sortearNaviosCandidatos(int K, int N)
 {
@@ -71,7 +19,66 @@ int **sortearNaviosCandidatos(int K, int N)
     return navios;
 }
 
-/*Tem o objetivo de corrigir a matriz navios, caso um navio ocupe dois berços*/
+
+/*Essa função faz o cálculo da matriz Tki apartir da entrada*/
+int calcularMatrizHoraAtracacao(int K, int N, int **Tki, int **ai, int **k, int **tki)
+{
+    int i, j, navio = 0, soma = 0, valor = 0;
+    int **ak = criaMatriz(1, N);
+    int **aj =  criaMatriz(1, N);
+
+    copiarMatriz(ai, ak, 1, N);
+    copiarMatriz(ai, aj, 1, N);
+    ordernarMatriz(aj, 1, N);
+
+    for (i = 0; i < K; i++)
+    {
+        for (j = 0; j < N; j++)
+        {
+            valor = aj[0][j];
+            navio = getColuna(ak, 0, N, valor);
+            ak[0][navio] = MAX;
+            // printf("navio = %d\n", valor);
+
+            if (j == 0)                        //Se for o primeiro navio, a soma (referente ao horário em que o berço está ocupado) 
+            {                                  
+                if (ai[0][navio] < k[i][0])
+                {
+                    soma = soma + k[i][0];     //com o valor de abertura do berço, se o navio chegar antes que o berço abrir
+                }
+                if (ai[0][navio] > k[i][0])
+                {
+                    soma = soma + ai[0][navio]; //com o valor de chegada do navio, se ele chegar depois que o berço abrir
+                }
+                Tki[i][navio] = soma;           //automaticamente o primeiro navío recebe esse o valor da soma
+                soma = soma + tki[i][navio];
+            }
+            else                                 //automaticamente o primeiro navío recebe esse o valor da soma
+            {
+
+                if (ai[0][navio] > soma)
+                {
+                    Tki[i][navio] = ai[0][navio];
+                    soma = soma + tki[i][navio];
+                }
+                else
+                {
+                    Tki[i][navio] = soma;
+                    soma = soma + tki[i][navio];
+                }
+            }
+
+            //printf("soma = %d, navio = %d, tki = %d\n", soma, navio, tki[i][navio]);
+        }
+        //k[i][1] = soma;
+        copiarMatriz(ai, ak, 1, N);
+        soma = 0;
+    }
+    limparMatriz(ak, 1);
+    return 0;
+}
+
+/*Tem o objetivo de corrigir a matriz de navios atendidos, caso um navio ocupe dois berços é feito um novo sorteio*/
 int corrigirMatrizNavios(int K, int N, int **navios)
 {
     int i, j, k, sorteio, cont = 0;
@@ -103,6 +110,7 @@ int corrigirMatrizNavios(int K, int N, int **navios)
     return 0;
 }
 
+/*Retorna uma matriz com a ordem dos navios atendidos em cada berço*/
 int **criarMatrizOrdemNaviosAtendidosBerco(int berco, int N, int **Tki, int **navios)
 {
 
@@ -138,7 +146,8 @@ int **criarMatrizOrdemNaviosAtendidosBerco(int berco, int N, int **Tki, int **na
     return ordem;
 }
 
-int **criarMatrizOrdemNavios(int K, int N, int **Tki, int **navios)
+/*Tem o objetivo de criar um vetor com a ordem de atendimento de todos os navios
+/*int **criarMatrizOrdemNavios(int K, int N, int **Tki, int **navios)
 {
     int **ordemNavios = criaMatriz(1, N);
     padronizarMatriz(ordemNavios, 1, N, MAX);
@@ -155,15 +164,17 @@ int **criarMatrizOrdemNavios(int K, int N, int **Tki, int **navios)
         }
         for (j = last; j < last + na; j++)
         {
-           ordemNavios[0][j] = ordem[0][l];
-           l++;
+            ordemNavios[0][j] = ordem[0][l];
+            l++;
         }
         l = 0;
     }
-    
-   // imprimirMatriz(ordemNavios, 1, N);
+
+    // imprimirMatriz(ordemNavios, 1, N);
     return ordemNavios;
 }
+
+
 
 /*Tem o objetivo de povoar a matriz Tki com números aleatórios de 1 a 200
 int sortearTempoEspera(int K, int N, int **Tki)

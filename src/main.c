@@ -2,13 +2,14 @@
 //#include "header/navios.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "../header/matriz.h"
 #include "../header/problema.h"
-#include "../header/violacoes.h"
 #include "../header/construtiva.h"
 #include "../header/display.h"
-
-
+#include "../header/navio.h"
+#include "../header/violacoes.h"
+#include "../header/berco.h"
 
 
 
@@ -16,25 +17,27 @@
 
 int main()
 {
-    int K, N;
+    int K, N, i;
+    clock_t t;
     srand((unsigned)time(NULL));
     scanf("%d %d", &N, &K);
     if (K <= 20 && N <= 100)
     {
+        t = clock();
         printf("Criando matriz de controle de navios...\n");
         int **navios = criaMatriz(K, N); //matriz de controle de atendimento dos navios nos berços
-        printf("Criando matriz de tempo de atendimento dos em cada berço navios...\n");
+        printf("Criando matriz de tempo de atendimento dos navios em cada berço...\n");
         int **tki = criaMatriz(K, N); //matriz de tempo de atendimento do navio i no berço k
-        printf("Criando matriz de tempo previnsto de chegada...\n");
+        printf("Criando matriz de tempo previsto de chegada de cada navio...\n");
         int **ai = criaMatriz(1, N); //matriz de tempo previsto de chegada do navio i
-        printf("Criando matriz de matriz de tempo de atracação...\n");
-        int **Tki = criaMatriz(K, N); //matriz de tempo de atracação do navio i no berço k (Construir com euristica de contrução)
+        printf("Criando matriz de matriz de horário de atracação...\n");
+        int **Tki = criaMatriz(K, N); //matriz de horário de atracação do navio i no berço k (Construir com euristica de contrução)
         printf("Criando matriz de tempo limite de espera...\n");
         int **bi = criaMatriz(1, N); //matriz de tempo limite de espera para a partida do navio
         printf("Criando matriz de tempo de abertura e fechamento dos berços...\n");
         int **k = criaMatriz(K, 2); //matriz de tempo de abertura e fechamento dos berços
 
-        printf("Lendo arquivo...\n");
+        printf("Lendo instancia...\n");
         povoarMatriz(tki, K, N);
         povoarMatriz(k, K, 2);
         povoarMatriz(ai, 1, N);
@@ -51,23 +54,20 @@ int main()
         printf("Matriz bi\n");
         imprimirMatriz(bi, 1, N);*/
 
-        printf("Calculando matriz Tki...\n");
+        printf("Calculando matriz de horário de atracação...\n");
+        calcularMatrizHoraAtracacao(K, N, Tki, ai, k, tki);
+       
+       /*printf("Imprimindo Tki...\n");
+        imprimirMriz(Tki, K, N);*/
 
-        int **aj = criaMatriz(1, N);
-        copiarMatriz(ai, aj, 1, N);
-
-        ordernarMatriz(aj, 1, N);
-        calcularMatrizHoraAtracacao(K, N, Tki, ai, aj, k, tki);
-        limparMatriz(aj, 1);
-
-       /* printf("Imprimindo Tki...\n");
-        imprimirMatriz(Tki, K, N);*/
-
-        printf("Criando uma solução inicial para Tki\n");
+        printf("Criando uma solução inicial para matriz de horário de atracação...\n");
         navios = sortearNaviosCandidatos(K, N);
         corrigirMatrizNavios(K, N, navios);
         int fo = calcularFO(K, N, Tki, tki, ai, navios);
-  
+        Berco** bercos = criarBercos(K, N);
+        povoarBercos(K, N, bercos, k, Tki, tki, ai, bi, navios);
+        
+
         /*printf("Matriz navios\n");
         imprimirMatriz(navios, K, N);*/
 
@@ -75,14 +75,14 @@ int main()
         int v1 = totalViolacoesJanelaTempoBercos(K, N, navios, Tki, k, tki);
         int na = naviosAtendidos(K, N, navios);
         int v2 = totalViolacoesJanelaTempoNavios(K, N, navios, Tki, tki, bi);
-
-        int** ordemNavios = criaMatriz(1, N);
-        ordemNavios = criarMatrizOrdemNavios(K, N, Tki, navios);
-        imprimirDadosSolucao(bu, na, 0, v1, v2, fo);
-        imprimirBercos(K, N, k, navios, Tki, tki, bi, ai, ordemNavios);
-        criarMatrizOrdemNavios(K, N, Tki, navios);
-
+        imprimirDadosSolucao(bu, na, t, v1, v2, fo);
+        imprimirListaBercos(K, N, bercos);
+        imprimirProgramacaoBercos(K, N, bercos, Tki, tki);
        
+        /*imprimirBercos(K, N, k, navios, Tki, tki, bi, ai, ordemNavios);
+        criarMatrizOrdemNavios(K, N, Tki, navios);*/
+
+        //benchmark result = 228
 
         /*
         int soma = somarCustosDosNavios(Tki, navios, N, K);
