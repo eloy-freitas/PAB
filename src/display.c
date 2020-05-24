@@ -21,11 +21,10 @@ int imprimirNaviosAtendidos(int N, int **ordem)
     return 0;
 }
 
-int imprimirDadosSolucao(int K, int N, clock_t tempo, int violacao1, int violacao2, int fo)
+int imprimirDadosSolucao(int id, int K, int N, clock_t tempo, int violacao1, int violacao2, int fo)
 {
 
-    tempo = clock() - tempo;
-    printf("\n< ----------------------------- SOLUÇÃO ---------------------------- >\n");
+    printf("\n< ----------------------------- SOLUÇÃO %d ---------------------------- >\n", id);
     printf("Número de berços utilizados.........................: %d\n", K);
     printf("Número de navios atendidos..........................: %d\n", N);
     printf("Tempo total de operação.............................: %ld\n", tempo);
@@ -36,9 +35,9 @@ int imprimirDadosSolucao(int K, int N, clock_t tempo, int violacao1, int violaca
     return 0;
 }
 
-int bercoToString(int K, int N, int na, int ko, int kc, int violacao1, int violacao2, int fo, int **ordem)
+int bercoToString(int id, int N, int na, int ko, int kc, int violacao1, int violacao2, int fo, int **ordem)
 {
-    printf("Berço %d\n", K + 1);
+    printf("Berço %d\n", id + 1);
     printf("Número de navios atendidos..................: %d\n", na);
     printf("Horário de abertura.........................: %d\n", ko);
     printf("Horário de fechamento.........................: %d\n", kc);
@@ -59,3 +58,14 @@ int bercoProgramacaoToString(int berco, int navio, int **Tki, int **tki)
     return 0;
 }
 
+int imprimirMenu()
+{
+    printf("Escolha uma opção: \n");
+    printf("\t1 = Criar uma solução com semente aleatória;\n");
+    printf("\t2 = Criar uma solução  com eurística gulosa;\n");
+    /*printf("\t3 = Criar multiplas soluções com eurística gulosa;\n");
+    printf("\t4 = Criar multiplas soluções com semente aleatória;\n");
+    */
+    printf("\t0 = Sair;\n");
+    return 0;
+}

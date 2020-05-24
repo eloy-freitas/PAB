@@ -81,7 +81,6 @@ int copiarLinha(int **source, int **target, int linha, int N)
     
     for (j = 0; j < N; j++)
     {
-         
         target[0][j] = source[linha][j];
        
     }

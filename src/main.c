@@ -5,13 +5,14 @@
 #include <time.h>
 #include "../header/matriz.h"
 #include "../header/problema.h"
-#include "../header/construtiva.h"
+
 #include "../header/display.h"
-#include "../header/navio.h"
+//#include "../header/navio.h"
 #include "../header/violacoes.h"
 #include "../header/berco.h"
-
-
+#include "../header/construtiva.h"
+#include "../header/solucao.h"
+//#include "../header/menu.h"
 
 //#include "header/refinamento.h"
 
@@ -24,8 +25,7 @@ int main()
     if (K <= 20 && N <= 100)
     {
         t = clock();
-        printf("Criando matriz de controle de navios...\n");
-        int **navios = criaMatriz(K, N); //matriz de controle de atendimento dos navios nos berços
+
         printf("Criando matriz de tempo de atendimento dos navios em cada berço...\n");
         int **tki = criaMatriz(K, N); //matriz de tempo de atendimento do navio i no berço k
         printf("Criando matriz de tempo previsto de chegada de cada navio...\n");
@@ -38,6 +38,7 @@ int main()
         int **k = criaMatriz(K, 2); //matriz de tempo de abertura e fechamento dos berços
 
         printf("Lendo instancia...\n");
+        printf("Berços = %d\t Navios = %d\n", K, N);
         povoarMatriz(tki, K, N);
         povoarMatriz(k, K, 2);
         povoarMatriz(ai, 1, N);
@@ -57,47 +58,19 @@ int main()
         printf("Calculando matriz de horário de atracação...\n");
         calcularMatrizHoraAtracacao(K, N, Tki, ai, k, tki);
        
-       /*printf("Imprimindo Tki...\n");
-        imprimirMriz(Tki, K, N);*/
+        int **navios = criaMatriz(K, N);
+        Berco **bercos = criarBercos(K, N);
 
-        printf("Criando uma solução inicial para matriz de horário de atracação...\n");
-        navios = sortearNaviosCandidatos(K, N);
-        corrigirMatrizNavios(K, N, navios);
-        int fo = calcularFO(K, N, Tki, tki, ai, navios);
-        Berco** bercos = criarBercos(K, N);
+        navios = euristicaGulosa(K, N, Tki, tki, ai, bercos);
+        Solucao so = criarSolucao(1, K, N, t, navios, Tki, tki, k, ai, bi, bercos);
         povoarBercos(K, N, bercos, k, Tki, tki, ai, bi, navios);
-        
 
-        /*printf("Matriz navios\n");
-        imprimirMatriz(navios, K, N);*/
-
-        int bu = bercosUsados(K, N, navios, Tki);
-        int v1 = totalViolacoesJanelaTempoBercos(K, N, navios, Tki, k, tki);
-        int na = naviosAtendidos(K, N, navios);
-        int v2 = totalViolacoesJanelaTempoNavios(K, N, navios, Tki, tki, bi);
-        imprimirDadosSolucao(bu, na, t, v1, v2, fo);
+        imprimirSolucao(so);
         imprimirListaBercos(K, N, bercos);
         imprimirProgramacaoBercos(K, N, bercos, Tki, tki);
-       
-        /*imprimirBercos(K, N, k, navios, Tki, tki, bi, ai, ordemNavios);
-        criarMatrizOrdemNavios(K, N, Tki, navios);*/
-
-        //benchmark result = 228
-
-        /*
-        int soma = somarCustosDosNavios(Tki, navios, N, K);
-        int qtdVizinhos = 10;
-        
-
-        int*** vizinhos = (int***) malloc(qtdVizinhos*sizeof(int**));
-        printf("Criando vetor de vizinhos(total de vizinhos = %d)...\n", qtdVizinhos);
-        printf("Imprimindo vizinhos...\n");
-        vizinhos = criarVizinhos(navios, K, N, qtdVizinhos);
-      
-        printf("Procurando melhor vizinho...\n");
-        procurarMelhorVizinho(Tki, vizinhos, qtdVizinhos, K, N, soma);
-        //calcularTempoEspera(K, N, Tki);
-        //imprimirMatriz(Tki, K, N);*/
+        //painel(K, N, Tki, tki, ai, bi, k, t);
+        //printf("Imprimindo Tki...\n");
+        //imprimirMatriz(Tki, K, N);
     }
     else
     {

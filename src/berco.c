@@ -14,10 +14,58 @@ Berco **criarBercos(int K, int N)
 	for (i = 0; i < K; i++)
 	{
 		bercos[i] = (Berco *)malloc(sizeof(Berco));
+		bercos[i]->id = i;
+		bercos[i]->na = 0;
+		bercos[i]->ha = 0;
+		bercos[i]->hd = 0;
+		bercos[i]->v1 = 0;
+		bercos[i]->v2 = 0;
+		bercos[i]->fo = 0;
 		bercos[i]->naviosAtendidos = criaMatriz(1, N);
 	}
 	return bercos;
 }
+
+/*Retorna uma matriz com a ordem dos navios atendidos em cada berço*/
+int **criarMatrizOrdemNaviosAtendidosBerco(int berco, int N, int **Tki, int **navios)
+{
+
+    int **linha = criaMatriz(1, N);
+    int **ordem = criaMatriz(1, N);
+
+    copiarLinha(Tki, linha, berco, N);
+    copiarLinha(Tki, ordem, berco, N);
+
+    int i, j;
+    for (i = 0; i < N; i++)
+    {
+        if (navios[berco][i] == 0)
+        {
+            ordem[0][i] = MAX;
+            linha[0][i] = MAX;
+        }
+    }
+    ordernarMatriz(ordem, 1, N);
+
+    for (i = 0; i < N; i++)
+    {
+        if (ordem[0][i] == MAX)
+        {
+            break;
+        }
+        for (j = 0; j < N; j++)
+        {
+            if (ordem[0][i] != MAX && (ordem[0][i] == linha[0][j]))
+            {
+                ordem[0][i] = j;
+                linha[0][j] = MAX;
+            }
+        }
+    }
+    //imprimirMatriz(ordem, 1, N);
+    return ordem;
+}
+
 /*Preenche os berços com cada informação específica*/
 int povoarBercos(int K, int N, Berco **bercos, int **k, int **Tki, int **tki, int **ai, int **bi, int **navios)
 {
@@ -26,13 +74,13 @@ int povoarBercos(int K, int N, Berco **bercos, int **k, int **Tki, int **tki, in
 
 	for (i = 0; i < K; i++)
 	{
-		bercos[i]->id = i + 1;
-		na = naviosAtendidos(bercos[i]->id, N, navios);
+		bercos[i]->id = i;
+		na = naviosAtendidosPorBerco(bercos[i]->id, N, navios);
 		bercos[i]->na = na;
 		bercos[i]->ha = k[i][0];
 		bercos[i]->hd = k[i][1];
 		bercos[i]->v1 = totalViolacoesJanelaTempoBercos(i + 1, N, navios, Tki, k, tki);
-		bercos[i]->v2 = totalViolacoesJanelaTempoNavios(i, N, navios, Tki, tki, bi);
+		bercos[i]->v2 = violacoesJanelaTempoNavios(i, N, navios, Tki, tki, bi);
 		bercos[i]->fo = calcularFOBerco(i, N, Tki, tki, ai, navios);
 		int **naviosAtendidos = criaMatriz(1, N);
 		naviosAtendidos = criarMatrizOrdemNaviosAtendidosBerco(i, N, Tki, navios);
@@ -40,6 +88,14 @@ int povoarBercos(int K, int N, Berco **bercos, int **k, int **Tki, int **tki, in
 	}
 	return 0;
 }
+
+int addNavio(int berco, int navio, Berco **bercos){
+	
+	bercos[berco]->naviosAtendidos[0][bercos[berco]->na] = navio;
+	bercos[berco]->na++;
+	return 0;
+}
+
 /*Imprime o contéudo da lista*/
 int imprimirListaBercos(int K, int N, Berco **bercos)
 {
@@ -58,7 +114,7 @@ int imprimirProgramacaoBercos(int K, int N, Berco **bercos, int **Tki, int **tki
 	printf("Programação:\n\n");
 	for (i = 0; i < K; i++)
 	{
-		printf("    Berço %d\n", bercos[i]->id);
+		printf("    Berço %d\n", bercos[i]->id + 1);
 		printf("\t  H. abertura: %d\n", bercos[i]->ha);
 		
 		navio = bercos[i]->naviosAtendidos[0][0];
@@ -69,7 +125,7 @@ int imprimirProgramacaoBercos(int K, int N, Berco **bercos, int **Tki, int **tki
 
 			if(navio != MAX){	
 				
-				bercoProgramacaoToString(bercos[i]->id - 1, navio, Tki, tki);
+				bercoProgramacaoToString(bercos[i]->id, navio, Tki, tki);
 			}
 			
 			navio = bercos[i]->naviosAtendidos[0][j];
@@ -83,3 +139,5 @@ int imprimirProgramacaoBercos(int K, int N, Berco **bercos, int **Tki, int **tki
 
 	return 0;
 }
+
+
