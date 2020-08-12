@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-
 
 
 int calcularFOBerco(int berco, int N, int **Tki, int **tki, int **ai, int **navios)

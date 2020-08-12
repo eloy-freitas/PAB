@@ -1,6 +1,16 @@
 
+
 typedef struct berco
 {
+	/*
+		id = numero identificação
+		na = numero navios atentidos
+		ha = hora abertura
+		hd = hora fechamento
+		v1 = violação janela de tempo berço
+		v2 = violação janela de tempo navios
+		fo = função objetivo
+	*/
 	int id, na, ha, hd, v1, v2, fo;
 	int **naviosAtendidos;
 } Berco;
@@ -79,7 +89,7 @@ int povoarBercos(int K, int N, Berco **bercos, int **k, int **Tki, int **tki, in
 		bercos[i]->na = na;
 		bercos[i]->ha = k[i][0];
 		bercos[i]->hd = k[i][1];
-		bercos[i]->v1 = totalViolacoesJanelaTempoBercos(i + 1, N, navios, Tki, k, tki);
+		bercos[i]->v1 = violacoesJanelaTempoBerco(i, N, navios, Tki, k, tki);
 		bercos[i]->v2 = violacoesJanelaTempoNavios(i, N, navios, Tki, tki, bi);
 		bercos[i]->fo = calcularFOBerco(i, N, Tki, tki, ai, navios);
 		int **naviosAtendidos = criaMatriz(1, N);
@@ -139,5 +149,4 @@ int imprimirProgramacaoBercos(int K, int N, Berco **bercos, int **Tki, int **tki
 
 	return 0;
 }
-
 

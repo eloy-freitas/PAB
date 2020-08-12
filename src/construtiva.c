@@ -77,20 +77,23 @@ int **euristicaGulosa(int K, int N, int **Tki, int **tki, int **ai, Berco **berc
         {
             peso = MAX;
             berco = -1;
-            for (i = 1; i < K; i++)
+            for (i = 0; i < K; i++)
             {
-
-                if (peso > Tki[i][j] - ai[0][j] + tki[i][j] && tki[i][j] != 0)
+                if (tki[i][j] != 0)
                 {
-                    peso = Tki[i][j] - ai[0][j] + tki[i][j];
-                    berco = i;
+                    fo = Tki[i][j] - ai[0][j] + tki[i][j];
+                    if (peso > fo && fo > 0)
+                    {
+                        peso = fo;
+                        berco = i;
+                    }
                 }
             }
             if (peso != MAX && berco > -1)
             {
                 navios[berco][j] = 1;
-                bercos[berco]->na++;
                 addNavio(berco, j, bercos);
+                controle[0][j] = 1;
             }
         }
     }
@@ -176,7 +179,7 @@ int calcularMatrizHoraAtracacao(int K, int N, int **Tki, int **ai, int **k, int 
 }
 
 /*Tem o objetivo de criar um vetor com a ordem de atendimento de todos os navios
-/*int **criarMatrizOrdemNavios(int K, int N, int **Tki, int **navios)
+int **criarMatrizOrdemNavios(int K, int N, int **Tki, int **navios)
 {
     int **ordemNavios = criaMatriz(1, N);
     padronizarMatriz(ordemNavios, 1, N, MAX);
@@ -205,7 +208,7 @@ int calcularMatrizHoraAtracacao(int K, int N, int **Tki, int **ai, int **k, int 
 
 
 
-/*Tem o objetivo de povoar a matriz Tki com números aleatórios de 1 a 200
+Tem o objetivo de povoar a matriz Tki com números aleatórios de 1 a 200
 int sortearTempoEspera(int K, int N, int **Tki)
 {
     int i = 0, j = 0, sorteio = 0;
@@ -219,9 +222,9 @@ int sortearTempoEspera(int K, int N, int **Tki)
         }
     }
     return 0;
-}*/
+}
 
-/*Tem o objetivo de mudar 2 bits aleatórios na linha da 
+Tem o objetivo de mudar 2 bits aleatórios na linha da 
 matriz navios de N colunas passados por parâmetros
 int mudarDoisBits(int **navios, int linha, int N)
 {

@@ -18,7 +18,7 @@
 
 int main()
 {
-    int K, N, i;
+    int K, N;
     clock_t t;
     srand((unsigned)time(NULL));
     scanf("%d %d", &N, &K);
@@ -55,22 +55,12 @@ int main()
         printf("Matriz bi\n");
         imprimirMatriz(bi, 1, N);*/
 
-        printf("Calculando matriz de horário de atracação...\n");
         calcularMatrizHoraAtracacao(K, N, Tki, ai, k, tki);
-       
-        int **navios = criaMatriz(K, N);
-        Berco **bercos = criarBercos(K, N);
 
-        navios = euristicaGulosa(K, N, Tki, tki, ai, bercos);
-        Solucao so = criarSolucao(1, K, N, t, navios, Tki, tki, k, ai, bi, bercos);
-        povoarBercos(K, N, bercos, k, Tki, tki, ai, bi, navios);
-
-        imprimirSolucao(so);
-        imprimirListaBercos(K, N, bercos);
-        imprimirProgramacaoBercos(K, N, bercos, Tki, tki);
-        //painel(K, N, Tki, tki, ai, bi, k, t);
-        //printf("Imprimindo Tki...\n");
-        //imprimirMatriz(Tki, K, N);
+        Solucao **so = criarSolucoes(1, K, N);
+        povoarSolucoes(0, so, K, N, Tki, tki, ai, bi, k);
+        imprimirSolucao(0, K, N, tki, Tki, so);
+        
     }
     else
     {

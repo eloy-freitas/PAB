@@ -53,7 +53,7 @@ int totalViolacoesJanelaTempoNavios(int K, int N, int **navios, int **Tki, int *
 
 int violacoesJanelaTempoNavios(int berco, int N, int **navios, int **Tki, int **tki, int **bi)
 {
-    int violacoes = 0, i, j;
+    int violacoes = 0, j;
 
     for (j = 0; j < N; j++)
     {
@@ -108,7 +108,7 @@ int naviosAtendidosPorBerco(int berco, int N, int **navios)
     }
     return soma;
 }
-/*
+
 int violacoesJanelaTempoBerco(int berco, int N, int **navios, int **Tki, int **k, int **tki)
 {
 
@@ -116,7 +116,7 @@ int violacoesJanelaTempoBerco(int berco, int N, int **navios, int **Tki, int **k
 
     for (j = 0; j < N; j++)
     {
-        if (navios[berco][j] == 1 && (k[berco][0] >= Tki[berco][j] && Tki[berco][j] >= k[berco][1]) && (k[berco][0] >= Tki[berco][j] + tki[berco][j] && Tki[berco][j] + tki[berco][j] >= k[berco][1]))
+        if (navios[berco][j] == 1 && !(k[berco][0] <= Tki[berco][j] && Tki[berco][j] <= k[berco][1]) && !(k[berco][0] <= Tki[berco][j] + tki[berco][j] && Tki[berco][j] + tki[berco][j] <= k[berco][1]))
         {
             violacoes++;
         }
@@ -124,4 +124,4 @@ int violacoesJanelaTempoBerco(int berco, int N, int **navios, int **Tki, int **k
 
     return violacoes;
 }
-*/
+
